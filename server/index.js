@@ -1,11 +1,19 @@
-import bodyParser from "body-parser";
 import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { adminRouter } from "./routes/admin.js";
+
+dotenv.config({ path: "./.env" });
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use("/admin", adminRouter);
 
