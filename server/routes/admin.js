@@ -10,7 +10,7 @@ const router = express.Router();
 
 const secret = process.env.JWT_SECRET;
 
-const verifyToken = (req, res, next) => {
+const authenticateJWTAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
 });
 
 //create a new course
-router.post("/courses", verifyToken, async (req, res) => {
+router.post("/courses", authenticateJWTAdmin, async (req, res) => {
   const course = new Course(req.body);
   await course.save();
 
@@ -69,7 +69,7 @@ router.post("/courses", verifyToken, async (req, res) => {
 });
 
 //edit a course
-router.put("/courses/:courseId", verifyToken, async (req, res) => {
+router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
   const courseId = req.params.courseId;
   const course = await Course.findOneAndUpdate({ _id: courseId }, req.body, {
     new: true,
@@ -82,7 +82,7 @@ router.put("/courses/:courseId", verifyToken, async (req, res) => {
 });
 
 //get all courses
-router.get("/courses", verifyToken, async (req, res) => {
+router.get("/courses", authenticateJWTAdmin, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });
