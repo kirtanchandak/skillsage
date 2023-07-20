@@ -14,7 +14,6 @@ const authenticateJWTAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
-
     jwt.verify(token, secret, (err, admin) => {
       if (err) {
         return res.status(403).send({ error: "Token not valid!" });
@@ -51,6 +50,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ username, role: "admin" }, secret, {
       expiresIn: "1h",
     });
+
     res.json({ message: "Logged in successfully", token });
   } else {
     res.status(403).json({ message: "Invalid username or password" });
@@ -85,6 +85,7 @@ router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
 router.get("/courses", authenticateJWTAdmin, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
+  console.log(req.admin);
 });
 
 export { router as adminRouter };

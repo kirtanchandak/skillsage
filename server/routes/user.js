@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/user.js";
+import Course from "../models/course.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -26,6 +27,7 @@ const authenticateJWTUser = (req, res, next) => {
   }
 };
 
+//user signup
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   const existingUser = await User.findOne({ username, password });
@@ -39,6 +41,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+//user login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
@@ -49,6 +52,40 @@ router.post("/login", async (req, res) => {
     res.json({ message: "Logged in successfully", token });
   } else {
     res.status(403).json({ message: "Invalid username or password" });
+  }
+});
+
+//get all courses
+router.get("/courses", authenticateJWTUser, async (req, res) => {
+  const courses = await Course.find({});
+  res.json(courses);
+});
+
+//purchase course by ID
+router.post("/courses/:id", authenticateJWTUser, async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  console.log(course);
+  if (course) {
+    const user = await User.findOne({ username: req.user.username });
+    if (user) {
+      user.purchasedCourses.push(course);
+      await user.save();
+      res.json({ message: "Course purchased successfully!" });
+    } else {
+      res.send({ message: "User not found!" });
+    }
+  } else {
+    res.send({ message: "Course not found!" });
+  }
+});
+
+//get all purchased courses
+router.get("/purchasedCourses", authenticateJWTUser, async (req, res) => {
+  const user = await User.findOne({ username: req.user.username });
+  if (user) {
+    res.json({ purchasedCourses: user.purchasedCourses || [] });
+  } else {
+    res.send({ message: "User has not purchased any course!" });
   }
 });
 

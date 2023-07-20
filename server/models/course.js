@@ -8,6 +8,6 @@ const CourseSchema = new mongoose.Schema({
   published: Boolean,
 });
 
-const Course = mongoose.model("course", CourseSchema);
+const Course = mongoose.model("Course", CourseSchema);
 
 export default Course;
