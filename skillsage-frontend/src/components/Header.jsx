@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -12,11 +13,14 @@ function Header() {
             <span className="flex lg:gap-8 gap-3 lg:mt-[6px]">
               <li>COURSES</li>
               <li className="hidden md:block">MENTORS</li>
-              <li>LOGIN</li>
+              <Link to="/login">LOGIN</Link>
             </span>
-            <li className="hidden md:block bg-black text-white py-1 px-5 rounded-full bottom-10">
+            <Link
+              className="hidden md:block bg-black text-white py-1 px-5 rounded-full bottom-10"
+              to="/signup"
+            >
               SIGN UP
-            </li>
+            </Link>
           </ul>
         </div>
       </div>
