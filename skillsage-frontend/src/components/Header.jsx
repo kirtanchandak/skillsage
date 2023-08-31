@@ -3,7 +3,7 @@ import React from "react";
 function Header() {
   return (
     <>
-      <div className="flex justify-between md:px-20 py-8 text-xl px-5">
+      <div className="flex justify-between md:px-20 py-8 text-xl px-5 border-b-2 border-black">
         <div className="flex gap-16">
           <h1 className="font-dm-serif-display font-bold ">SkillSage+</h1>
         </div>
@@ -20,7 +20,6 @@ function Header() {
           </ul>
         </div>
       </div>
-      <hr />
     </>
   );
 }
