@@ -89,8 +89,8 @@ router.get("/me", authenticateJWTAdmin, async (req, res) => {
 });
 
 //get all courses
-router.get("/allcourses", async (req, res) => {
-  const courses = await Course.find({ published: true });
+router.get("/courses", authenticateJWTAdmin, async (req, res) => {
+  const courses = await Course.find({});
   res.json({ courses });
 });
 
