@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
+import AdminLayout from "./AdminLayout";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Login() {
         username,
         password,
       });
-      navigate("/");
+      navigate("/admindashboard");
       localStorage.setItem("token", res.data.token);
     } catch (err) {
       console.log(err);
@@ -26,7 +26,7 @@ function Login() {
 
   return (
     <>
-      <Layout>
+      <AdminLayout>
         <div class="max-w-[280px] mx-auto">
           <div class="flex flex-col items-center mt-[10vh]">
             <h2 class="mb-5 text-gray-900 font-mono font-bold text-xl">
@@ -60,7 +60,7 @@ function Login() {
             </p>
           </div>
         </div>
-      </Layout>
+      </AdminLayout>
     </>
   );
 }

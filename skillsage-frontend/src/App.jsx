@@ -4,7 +4,9 @@ import { Route, Routes } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Courses from "./pages/Courses";
-import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./AdminPages/AdminLogin";
+import AdminDashboard from "./AdminPages/AdminDashboard";
+import NewCourse from "./AdminPages/NewCourse";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/courses" element={<Courses />}></Route>
         <Route path="/adminlogin" element={<AdminLogin />}></Route>
+        <Route path="/admindashboard" element={<AdminDashboard />}></Route>
+        <Route path="/newcourse" element={<NewCourse />}></Route>
       </Routes>
     </>
   );

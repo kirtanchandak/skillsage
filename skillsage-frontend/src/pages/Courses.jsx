@@ -6,7 +6,9 @@ function Courses() {
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/admin/courses");
+        const response = await axios.get(
+          "http://localhost:3000/admin/allcourses"
+        );
         setCourses(response.data.courses);
       } catch (err) {
         console.log(err);

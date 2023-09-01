@@ -81,11 +81,12 @@ router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
   }
 });
 
+//courses published by admin
+
 //get all courses
-router.get("/courses", async (req, res) => {
+router.get("/allcourses", async (req, res) => {
   const courses = await Course.find({ published: true });
   res.json({ courses });
-  console.log(req.admin);
 });
 
 export { router as adminRouter };
