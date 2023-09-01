@@ -88,6 +88,13 @@ router.get("/me", authenticateJWTAdmin, async (req, res) => {
   });
 });
 
+//get a course
+router.get("/course/:id", authenticateJWTAdmin, async (req, res) => {
+  const courseId = req.params.id;
+  const course = await Course.findById(courseId);
+  res.json({ course });
+});
+
 //get all courses
 router.get("/courses", authenticateJWTAdmin, async (req, res) => {
   const courses = await Course.find({});
