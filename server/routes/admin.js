@@ -82,8 +82,8 @@ router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
 });
 
 //get all courses
-router.get("/courses", authenticateJWTAdmin, async (req, res) => {
-  const courses = await Course.find({});
+router.get("/courses", async (req, res) => {
+  const courses = await Course.find({ published: true });
   res.json({ courses });
   console.log(req.admin);
 });
