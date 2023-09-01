@@ -7,6 +7,9 @@ export default {
       "dm-serif-display": ["DM Serif Display", "serif"],
       poppins: ["Poppins", "sans-serif"],
     },
+    colors: {
+      primary: "#1C3DEE",
+    },
   },
   plugins: [],
 };

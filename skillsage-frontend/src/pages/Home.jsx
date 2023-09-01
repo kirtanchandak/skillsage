@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../components/Layout";
 import heroimage from "../assets/hero-img.png";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -12,12 +13,12 @@ function Home() {
               A revolution of <br /> learning with <br /> great mentors
             </h1>
             <div>
-              <a
-                className="bg-[#1C3DEE]  inline-block  hover:no-underline btn rounded-full px-3 py-1 mt-4 text-white font-medium"
-                href="#upcoming"
+              <Link
+                className="bg-primary inline-block  hover:no-underline btn rounded-full px-3 py-1 mt-4 text-white font-medium"
+                to="/createcourse"
               >
-                GET STARTED
-              </a>
+                CREATE COURSE
+              </Link>
             </div>
           </div>
           <div className="flex lg:w-1/2 w-5/6">

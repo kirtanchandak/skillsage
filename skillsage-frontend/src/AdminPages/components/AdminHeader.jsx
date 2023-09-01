@@ -5,7 +5,6 @@ function AdminHeader() {
   const accessToken = localStorage.getItem("token");
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.reload();
   };
   return (
     <>

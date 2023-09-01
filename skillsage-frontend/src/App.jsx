@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Courses from "./pages/Courses";
 import AdminLogin from "./AdminPages/AdminLogin";
 import AdminDashboard from "./AdminPages/AdminDashboard";
-import NewCourse from "./AdminPages/NewCourse";
+import NewCourse from "./pages/NewCourse";
 
 function App() {
   return (
@@ -16,9 +16,7 @@ function App() {
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/courses" element={<Courses />}></Route>
-        <Route path="/adminlogin" element={<AdminLogin />}></Route>
-        <Route path="/admindashboard" element={<AdminDashboard />}></Route>
-        <Route path="/newcourse" element={<NewCourse />}></Route>
+        <Route path="/createcourse" element={<NewCourse />}></Route>
       </Routes>
     </>
   );

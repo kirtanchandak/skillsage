@@ -81,7 +81,12 @@ router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
   }
 });
 
-//courses published by admin
+//admin details
+router.get("/me", authenticateJWTAdmin, async (req, res) => {
+  res.json({
+    username: req.admin.username,
+  });
+});
 
 //get all courses
 router.get("/allcourses", async (req, res) => {

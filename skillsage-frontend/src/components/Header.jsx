@@ -1,12 +1,31 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
+  const [email, setEmail] = useState("");
   const accessToken = localStorage.getItem("token");
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
+
+  useEffect(() => {
+    const name = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/admin/me", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setEmail(res.data.username);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    name();
+  }, []);
+
   return (
     <>
       <div className="flex justify-between md:px-20 py-8 text-xl px-5 border-b-2 border-black">
@@ -18,20 +37,19 @@ function Header() {
         <div>
           <ul className="flex lg:gap-8 gap-3 font-poppins">
             <span className="flex lg:gap-8 gap-3 lg:mt-[6px]">
-              <Link to="/courses">COURSES</Link>
+              <Link to="/courses" className="hidden lg:flex">
+                COURSES
+              </Link>
               <li className="hidden md:block">MENTORS</li>
-              {accessToken ? (
-                <button onClick={handleLogout}>LOGOUT</button>
+              {email ? (
+                <div className="flex lg:gap-8 gap-5">
+                  <p>{email}</p>
+                  <button onClick={handleLogout}>LOGOUT</button>
+                </div>
               ) : (
                 <Link to="/login">LOGIN</Link>
               )}
             </span>
-            <Link
-              className="hidden md:block bg-black text-white py-1 px-5 rounded-full bottom-10"
-              to="/adminlogin"
-            >
-              ADMIN LOGIN
-            </Link>
           </ul>
         </div>
       </div>
