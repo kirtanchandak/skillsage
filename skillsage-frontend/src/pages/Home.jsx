@@ -1,32 +1,27 @@
 import React from "react";
 import Layout from "../components/Layout";
-import heroimage from "../assets/hero-img.png";
+import heroimage from "../assets/hero2.png";
 import { Link } from "react-router-dom";
 
 function Home() {
   return (
     <>
       <Layout>
-        <div className="flex flex-col lg:flex-row  justify-center lg:pl-20 lg:pr-0 px-5">
-          <div className="flex flex-col lg:w-1/2">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-dm-serif-display lg:mt-36 mt-5">
-              A revolution of <br /> learning with <br /> great mentors
-            </h1>
-            <div>
-              <Link
-                className="bg-primary inline-block  hover:no-underline btn rounded-full px-3 py-1 mt-4 text-white font-medium"
-                to="/createcourse"
-              >
-                CREATE COURSE
-              </Link>
-            </div>
+        <div className="flex flex-col justify-center items-center mt-12 md:mt-12 px-5">
+          <div className="">
+            <p className="text-4xl font-bold font-dm-serif-display text-center">
+              Empowering Education: Your <br />
+              One-Stop Learning Companion
+            </p>
           </div>
-          <div className="flex lg:w-1/2 w-5/6">
-            <img
-              src={heroimage}
-              alt="hero-image"
-              className="w-full mt-6 lg:mt-0 lg:border-l-2 lg:border-b-2 border-black"
-            />
+          <Link
+            to="/login"
+            className="text-center bg-primary rounded-full px-2 py-1 font-dm-serif-display mt-5 text-lg"
+          >
+            Get Started
+          </Link>
+          <div>
+            <img src={heroimage} alt="hero-img" className="pt-8 w-[410px]" />
           </div>
         </div>
       </Layout>

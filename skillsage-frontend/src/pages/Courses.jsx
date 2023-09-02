@@ -28,9 +28,21 @@ function Courses() {
     <>
       <Layout>
         <div className="mt-8 px-8">
-          <h1 className="text-center text-5xl font-dm-serif-display">
-            Courses
-          </h1>
+          <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col">
+              <h1 className="text-center text-5xl font-dm-serif-display mb-3">
+                Courses
+              </h1>
+            </div>
+            <div>
+              <Link
+                to="/createcourse"
+                className="text-center bg-primary font-dm-serif-display px-2 py-1 rounded-full text-sm"
+              >
+                Create Course +
+              </Link>
+            </div>
+          </div>
           <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
               {courses.map((course) => (

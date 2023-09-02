@@ -40,7 +40,7 @@ function CoursePage() {
             <Course course={course} />
           </div>
           <div className="">
-            <EditCourse course={course} />
+            <EditCourse course={course} setCourse={setCourse} />
           </div>
         </div>
       </Layout>
@@ -74,7 +74,14 @@ const EditCourse = (props) => {
           },
         }
       );
-      alert("Course updated successfully!");
+      let updatedCourse = {
+        title: title,
+        description: description,
+        imageUrl: url,
+        published: true,
+        price,
+      };
+      props.setCourse(updatedCourse);
     } catch (err) {
       console.log(err);
     }
