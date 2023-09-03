@@ -3,29 +3,13 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/user.js";
 import Course from "../models/course.js";
+import { authenticateJWT } from "../middleware/auth.js";
 
 dotenv.config({ path: "./.env" });
 
 const router = express.Router();
 
 const secret = process.env.JWT_SECRET;
-
-const authenticateJWTUser = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-
-    jwt.verify(token, secret, (err, user) => {
-      if (err) {
-        return res.status(403).send({ error: "Token not valid!" });
-      }
-      req.user = user;
-      next();
-    });
-  } else {
-    res.status(401).send({ error: "You are not authenticated!" });
-  }
-};
 
 //user signup
 router.post("/signup", async (req, res) => {
@@ -56,13 +40,13 @@ router.post("/login", async (req, res) => {
 });
 
 //get all courses
-router.get("/courses", authenticateJWTUser, async (req, res) => {
+router.get("/courses", authenticateJWT, async (req, res) => {
   const courses = await Course.find({});
   res.json(courses);
 });
 
 //purchase course by ID
-router.post("/courses/:id", authenticateJWTUser, async (req, res) => {
+router.post("/courses/:id", authenticateJWT, async (req, res) => {
   const course = await Course.findById(req.params.id);
   console.log(course);
   if (course) {
@@ -80,7 +64,7 @@ router.post("/courses/:id", authenticateJWTUser, async (req, res) => {
 });
 
 //get all purchased courses
-router.get("/purchasedCourses", authenticateJWTUser, async (req, res) => {
+router.get("/purchasedCourses", authenticateJWT, async (req, res) => {
   const user = await User.findOne({ username: req.user.username });
   if (user) {
     res.json({ purchasedCourses: user.purchasedCourses || [] });

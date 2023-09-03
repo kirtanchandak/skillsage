@@ -3,28 +3,13 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import Admin from "../models/admin.js";
 import Course from "../models/course.js";
+import { authenticateJWT } from "../middleware/auth.js";
 
 dotenv.config({ path: "./.env" });
 
 const router = express.Router();
 
 const secret = process.env.JWT_SECRET;
-
-const authenticateJWTAdmin = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-    jwt.verify(token, secret, (err, admin) => {
-      if (err) {
-        return res.status(403).send({ error: "Token not valid!" });
-      }
-      req.admin = admin;
-      next();
-    });
-  } else {
-    res.status(401).send({ error: "You are not authenticated!" });
-  }
-};
 
 //signup new admin
 router.post("/signup", async (req, res) => {
@@ -58,7 +43,7 @@ router.post("/login", async (req, res) => {
 });
 
 //create a new course
-router.post("/courses", authenticateJWTAdmin, async (req, res) => {
+router.post("/courses", authenticateJWT, async (req, res) => {
   const course = new Course(req.body);
   await course.save();
 
@@ -69,7 +54,7 @@ router.post("/courses", authenticateJWTAdmin, async (req, res) => {
 });
 
 //edit a course
-router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
+router.put("/courses/:courseId", authenticateJWT, async (req, res) => {
   const courseId = req.params.courseId;
   const course = await Course.findOneAndUpdate({ _id: courseId }, req.body, {
     new: true,
@@ -82,21 +67,21 @@ router.put("/courses/:courseId", authenticateJWTAdmin, async (req, res) => {
 });
 
 //admin details
-router.get("/me", authenticateJWTAdmin, async (req, res) => {
+router.get("/me", authenticateJWT, async (req, res) => {
   res.json({
-    username: req.admin.username,
+    username: req.user.username,
   });
 });
 
 //get a course
-router.get("/course/:id", authenticateJWTAdmin, async (req, res) => {
+router.get("/course/:id", authenticateJWT, async (req, res) => {
   const courseId = req.params.id;
   const course = await Course.findById(courseId);
   res.json({ course });
 });
 
 //get all courses
-router.get("/courses", authenticateJWTAdmin, async (req, res) => {
+router.get("/courses", authenticateJWT, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });

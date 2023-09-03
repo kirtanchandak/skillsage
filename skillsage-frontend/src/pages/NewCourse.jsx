@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AdminLayout from "../AdminPages/AdminLayout";
 import axios from "axios";
+import Layout from "../components/Layout";
 
 function NewCourse() {
   const [title, setTitle] = useState("");
@@ -38,7 +38,7 @@ function NewCourse() {
   return (
     <>
       {token ? (
-        <AdminLayout>
+        <Layout>
           <div class="max-w-[280px] mx-auto font-poppins">
             <div class="flex flex-col items-center mt-[10vh]">
               <h2 class="mb-5 text-gray-900 font-mono font-bold text-xl">
@@ -78,7 +78,7 @@ function NewCourse() {
               </form>
             </div>
           </div>
-        </AdminLayout>
+        </Layout>
       ) : (
         <div>Not logged in!</div>
       )}
