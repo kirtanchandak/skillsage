@@ -50,17 +50,17 @@ function CoursePage() {
 
 export default CoursePage;
 
-const EditCourse = (props) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [url, setURL] = useState("");
+const EditCourse = ({ course, setCourse }) => {
+  const [title, setTitle] = useState(course.title);
+  const [description, setDescription] = useState(course.description);
+  const [price, setPrice] = useState(course.price);
+  const [url, setURL] = useState(course.imageUrl);
 
   const updateCourse = async (e) => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:3000/admin/courses/${props.course._id}`,
+        `http://localhost:3000/admin/courses/${course._id}`,
         {
           title: title,
           description: description,
@@ -75,50 +75,55 @@ const EditCourse = (props) => {
         }
       );
       let updatedCourse = {
+        _id: course._id,
         title: title,
         description: description,
         imageUrl: url,
         published: true,
         price,
       };
-      props.setCourse(updatedCourse);
+      setCourse(updatedCourse);
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <div class="max-w-[280px] mx-auto font-poppins">
-      <div class="flex flex-col items-center mt-[10vh]">
-        <h2 class="mb-5 text-gray-900 font-mono font-bold text-xl">
+    <div className="max-w-[280px] mx-auto font-poppins">
+      <div className="flex flex-col items-center mt-[10vh]">
+        <h2 className="mb-5 text-gray-900 font-mono font-bold text-xl">
           Update Course
         </h2>
         <form>
           <input
             type="text"
-            class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
+            className="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
             placeholder="Title"
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <input
             type=""
-            class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
+            className="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
             placeholder="Description"
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <input
             type=""
-            class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
+            className="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
             placeholder="Price"
+            value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
           <input
             type=""
-            class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
+            className="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium "
             placeholder="Image URL"
+            value={url}
             onChange={(e) => setURL(e.target.value)}
           />
           <button
-            class="bg-primary text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]"
+            className="bg-primary text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]"
             onClick={updateCourse}
           >
             Update Course
