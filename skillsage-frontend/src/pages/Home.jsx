@@ -18,7 +18,7 @@ function Home() {
             to="/login"
             className="text-center bg-primary rounded-full px-2 py-1 font-dm-serif-display mt-5 text-lg"
           >
-            Get Started
+            Login
           </Link>
           <div>
             <img src={heroimage} alt="hero-img" className="pt-8 w-[410px]" />
