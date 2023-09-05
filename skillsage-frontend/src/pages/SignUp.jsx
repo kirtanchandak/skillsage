@@ -57,7 +57,7 @@ function Login() {
                 class="bg-primary text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]"
                 onClick={handleSignUp}
               >
-                Log In
+                Sign Up
               </button>
             </form>
             <p class="text-center mt-3 text-[14px]">
