@@ -4,8 +4,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../store/atoms/user";
 
 function Login() {
+  const userEmail = useSetRecoilState(userState);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +21,12 @@ function Login() {
         username: username,
         password: password,
       });
-      navigate("/");
       localStorage.setItem("token", res.data.token);
+      userEmail({
+        isLoading: false,
+        userEmail: username,
+      });
+      navigate("/");
     } catch (err) {
       console.log(err);
     }

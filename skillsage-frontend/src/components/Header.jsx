@@ -1,30 +1,15 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userEmailState } from "../store/selectors/userEmail";
 
 function Header() {
-  const [email, setEmail] = useState("");
-  const accessToken = localStorage.getItem("token");
+  const userEmail = useRecoilValue(userEmailState);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
-
-  useEffect(() => {
-    const name = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/admin/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setEmail(res.data.username);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    name();
-  }, []);
 
   return (
     <>
@@ -41,9 +26,9 @@ function Header() {
                 COURSES
               </Link>
               <li className="hidden md:block">MENTORS</li>
-              {email ? (
+              {userEmail ? (
                 <div className="flex lg:gap-8 gap-5">
-                  <p>{email}</p>
+                  <p>{userEmail}</p>
                   <button onClick={handleLogout}>LOGOUT</button>
                 </div>
               ) : (
