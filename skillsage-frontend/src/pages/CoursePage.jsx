@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Layout from "../components/Layout";
-import { Course } from "./Courses";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  courseImage,
+  coursePrice,
+  courseTitle,
+} from "../store/selectors/course";
+import { courseState } from "../store/atoms/course";
+import { courseIsLoading } from "../store/selectors/course";
 
 function CoursePage() {
   const { id } = useParams();
-  console.log(id);
-  const [course, setCourse] = useState(null);
+
+  const setCourse = useSetRecoilState(courseState);
+  const isLoading = useRecoilValue(courseIsLoading);
 
   useEffect(() => {
     const course = async () => {
@@ -20,7 +28,10 @@ function CoursePage() {
             },
           }
         );
-        setCourse(res.data.course);
+        setCourse({
+          isLoading: false,
+          course: res.data.course,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -28,7 +39,7 @@ function CoursePage() {
     course();
   }, []);
 
-  if (!course) {
+  if (isLoading) {
     return <div>Loading....</div>;
   }
 
@@ -37,10 +48,10 @@ function CoursePage() {
       <Layout>
         <div className="flex flex-col md:flex-row justify-center items-center pt-20 md:gap-20 px-8">
           <div className="">
-            <Course course={course} />
+            <CourseCard />
           </div>
           <div className="">
-            <EditCourse course={course} setCourse={setCourse} />
+            <EditCourse setCourse={setCourse} />
           </div>
         </div>
       </Layout>
@@ -50,18 +61,23 @@ function CoursePage() {
 
 export default CoursePage;
 
-const EditCourse = ({ course, setCourse }) => {
-  const [title, setTitle] = useState(course.title);
-  const [description, setDescription] = useState(course.description);
-  const [price, setPrice] = useState(course.price);
-  const [url, setURL] = useState(course.imageUrl);
+const EditCourse = () => {
+  const [courseDetails, setCourse] = useRecoilState(courseState);
+
+  const [title, setTitle] = useState(courseDetails.course.title);
+  const [description, setDescription] = useState(
+    courseDetails.course.description
+  );
+  const [price, setPrice] = useState(courseDetails.course.price);
+  const [url, setURL] = useState(courseDetails.course.imageUrl);
 
   const updateCourse = async (e) => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:3000/admin/courses/${course._id}`,
+        `http://localhost:3000/admin/courses/${courseDetails.course._id}`,
         {
+          _id: courseDetails.course._id,
           title: title,
           description: description,
           imageUrl: url,
@@ -75,14 +91,17 @@ const EditCourse = ({ course, setCourse }) => {
         }
       );
       let updatedCourse = {
-        _id: course._id,
+        _id: courseDetails.course._id,
         title: title,
         description: description,
         imageUrl: url,
         published: true,
         price,
       };
-      setCourse(updatedCourse);
+      setCourse({
+        course: updatedCourse,
+        isLoading: false,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -129,6 +148,27 @@ const EditCourse = ({ course, setCourse }) => {
             Update Course
           </button>
         </form>
+      </div>
+    </div>
+  );
+};
+
+export const CourseCard = () => {
+  const title = useRecoilValue(courseTitle);
+  const imageUrl = useRecoilValue(courseImage);
+  const price = useRecoilValue(coursePrice);
+  return (
+    <div className="font-poppins">
+      <div class="max-w-sm bg-white border rounded-lg  ">
+        <a href="#">
+          <img class="max-w-[100%] h-[255px]" src={imageUrl} alt="" />
+        </a>
+        <div class="p-5">
+          <a href="#">
+            <h5 class="mb-2 text-2xl font-bold ">{title}</h5>
+          </a>
+          <p className="text-base">${price}</p>
+        </div>
       </div>
     </div>
   );

@@ -1,15 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userEmailState } from "../store/selectors/userEmail";
 import { isUserLoadingState } from "../store/selectors/isUserLoading";
 
 function Header() {
+  const navigate = useNavigate();
   const userEmail = useRecoilValue(userEmailState);
   const loadingState = useRecoilValue(isUserLoadingState);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    navigate("/");
     window.location.reload();
   };
 
