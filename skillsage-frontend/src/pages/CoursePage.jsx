@@ -161,7 +161,7 @@ export const CourseCard = () => {
     <div className="font-poppins">
       <div class="max-w-sm bg-white border rounded-lg  ">
         <a href="#">
-          <img class="max-w-[100%] h-[255px]" src={imageUrl} alt="" />
+          <img class="max-w-[100%] h-[255px]" src={imageUrl} alt="img" />
         </a>
         <div class="p-5">
           <a href="#">
